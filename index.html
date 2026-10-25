@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShaMinKet — Citador Bibliográfico APA 7 & Multi-Formato</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>">
+</head>
+<body>
+
+  <!-- Capa de Nieve Invernal ShaMinKet (Azul, Morado y Blanco Escarcha) -->
+  <div class="snow-canvas" id="snowCanvas" aria-hidden="true"></div>
+
+  <!-- Encabezado Minimalista -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark">S</div>
+        <div class="brand-text">
+          <h1>ShaMinKet</h1>
+          <div class="brand-subtitle">Citador Académico • Winter Edition</div>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <button type="button" class="pill-btn" id="btnChime" title="Reproducir destello invernal">
+          <span>🔔</span> Destello
+        </button>
+        <button type="button" class="pill-btn" id="btnToggleSnow" title="Activar o pausar nieve">
+          <span>❄️</span> Nieve
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Bienvenida Directa y Simple -->
+    <section class="hero-box">
+      <div class="winter-tag">
+        <span>✦</span> Edición Navideña • APA 7 y 5 Formatos Más
+      </div>
+      <h2>Cita páginas web e imágenes al instante</h2>
+      <p>Pega cualquier enlace o imagen y obtén tu referencia lista para copiar con sangría académica.</p>
+    </section>
+
+    <!-- 1. TARJETA DE ENTRADA -->
+    <section class="card" aria-label="Entrada de enlace o imagen">
+      <!-- Guirnalda de Luces Navideñas en Azul, Morado y Blanco Escarcha -->
+      <div class="christmas-garland" aria-hidden="true">
+        <span class="bulb blue"></span>
+        <span class="bulb purple"></span>
+        <span class="bulb frost"></span>
+        <span class="bulb violet"></span>
+        <span class="bulb blue"></span>
+        <span class="bulb purple"></span>
+        <span class="bulb frost"></span>
+        <span class="bulb violet"></span>
+        <span class="bulb blue"></span>
+        <span class="bulb purple"></span>
+      </div>
+
+      <div class="card-body">
+        <!-- Selector Simple: Página Web o Imagen -->
+        <div class="mode-tabs" role="tablist">
+          <button type="button" class="mode-tab active" data-mode="webpage" role="tab">
+            <span>🌐</span> Página Web / Artículo
+          </button>
+          <button type="button" class="mode-tab" data-mode="image" role="tab">
+            <span>🖼️</span> Imagen / Fotografía
+          </button>
+        </div>
+
+        <!-- Campo Principal para Pegar Link -->
+        <div class="url-input-group">
+          <div class="input-wrapper">
+            <span class="input-icon">🔗</span>
+            <input
+              type="url"
+              id="urlInput"
+              class="url-input"
+              placeholder="Pega aquí el link de la página web o imagen (ej. https://...)..."
+              autocomplete="off"
+            >
+          </div>
+          <button type="button" class="btn-cite" id="btnGenerate">
+            <span>✨</span> Citar Ahora
+          </button>
+        </div>
+
+        <!-- Zona Opcional para Arrastrar o Pegar Archivo de Imagen (cuando está en modo Imagen) -->
+        <div class="image-dropzone" id="imageDropzone">
+          <div class="dropzone-info">
+            <img id="imagePreviewThumb" class="image-preview-thumb" alt="Vista previa">
+            <div>
+              <strong style="color: var(--text-primary);">¿Tienes la imagen en tu Mac o portapapeles?</strong>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">Haz clic para elegirla, arrástrala aquí o presiona <strong>Cmd + V</strong></div>
+            </div>
+          </div>
+          <span class="chip" style="border-color: var(--accent-purple); color: var(--accent-purple-light);">Subir archivo</span>
+          <input type="file" id="imageFileInput" accept="image/*" style="display: none;">
+        </div>
+
+        <!-- Barra Rápida: Ejemplos y Botón para Ajustar Datos Manualmente -->
+        <div class="quick-row">
+          <div class="Quick-chips">
+            <span class="chip-label">Ejemplo rápido:</span>
+            <button type="button" class="chip" data-example="articulo">Artículo UNAM</button>
+            <button type="button" class="chip" data-example="wikipedia">Wikipedia</button>
+            <button type="button" class="chip" data-example="imagen">Fotografía</button>
+          </div>
+
+          <button type="button" class="toggle-edit-btn" id="btnToggleMetadata">
+            <span>✎</span> Ajustar datos (autor, fecha, título)
+          </button>
+        </div>
+
+        <!-- Cajón Desplegable para Ajustar Datos si la Página no los Trae -->
+        <div class="metadata-drawer" id="metadataDrawer">
+          <div class="field-group">
+            <label for="fieldAuthorLast">Apellido o Institución</label>
+            <input type="text" id="fieldAuthorLast" placeholder="Ej. García o UNAM">
+          </div>
+          <div class="field-group">
+            <label for="fieldAuthorFirst">Nombre(s) del Autor</label>
+            <input type="text" id="fieldAuthorFirst" placeholder="Ej. Roberto (opcional)">
+          </div>
+          <div class="field-group">
+            <label for="fieldTitle">Título de la Página o Imagen</label>
+            <input type="text" id="fieldTitle" placeholder="Título del recurso">
+          </div>
+          <div class="field-group">
+            <label for="fieldSite">Nombre del Sitio Web</label>
+            <input type="text" id="fieldSite" placeholder="Ej. Wikipedia, Unsplash, UNAM">
+          </div>
+          <div class="field-group">
+            <label for="fieldYear">Año</label>
+            <input type="text" id="fieldYear" placeholder="Ej. 2026 (o vacío para s. f.)">
+          </div>
+          <div class="field-group">
+            <label for="fieldMonth">Mes</label>
+            <input type="text" id="fieldMonth" placeholder="Ej. octubre (opcional)">
+          </div>
+          <div class="field-group">
+            <label for="fieldDay">Día</label>
+            <input type="text" id="fieldDay" placeholder="Ej. 25 (opcional)">
+          </div>
+          <div class="field-group" id="imageTypeFieldGroup" style="display: none;">
+            <label for="fieldImageType">Tipo de Imagen</label>
+            <input type="text" id="fieldImageType" value="Fotografía" placeholder="Fotografía, Ilustración, Infografía...">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. TARJETA DE RESULTADO Y FORMATOS -->
+    <section class="card" aria-label="Cita generada">
+      <div class="card-body">
+        <!-- Selector de Formato Bibliográfico -->
+        <div class="format-pills" role="tablist" aria-label="Formatos de citación">
+          <button type="button" class="format-btn active" data-format="apa7">
+            APA 7 <span class="badge-star">Principal</span>
+          </button>
+          <button type="button" class="format-btn" data-format="mla9">MLA 9</button>
+          <button type="button" class="format-btn" data-format="chicago">Chicago 17</button>
+          <button type="button" class="format-btn" data-format="harvard">Harvard</button>
+          <button type="button" class="format-btn" data-format="ieee">IEEE</button>
+          <button type="button" class="format-btn" data-format="vancouver">Vancouver</button>
+        </div>
+
+        <!-- Referencia Completa Lista para Copiar -->
+        <div class="citation-result-box">
+          <div class="result-header">
+            <span class="result-label" id="activeFormatLabel">APA 7ª Edición (Estándar Académico)</span>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="mini-copy-btn" id="btnSaveCitation" title="Guardar en tu lista inferior">
+                + Guardar en lista
+              </button>
+              <button type="button" class="copy-btn" id="btnCopyMain">
+                <span>📋</span> Copiar Referencia
+              </button>
+            </div>
+          </div>
+          <div class="citation-output" id="citationOutput"></div>
+        </div>
+
+        <!-- Citas Dentro del Texto (Parentética y Narrativa) -->
+        <div class="intext-grid">
+          <div class="intext-card">
+            <div class="intext-meta">
+              <span class="intext-title">Cita Parentética (al final de frase)</span>
+              <span class="intext-value" id="intextParenthetical">(García, 2025)</span>
+            </div>
+            <button type="button" class="mini-copy-btn" id="btnCopyParen">Copiar</button>
+          </div>
+
+          <div class="intext-card">
+            <div class="intext-meta">
+              <span class="intext-title">Cita Narrativa (dentro del párrafo)</span>
+              <span class="intext-value" id="intextNarrative">García (2025)</span>
+            </div>
+            <button type="button" class="mini-copy-btn" id="btnCopyNarra">Copiar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. LISTA DE REFERENCIAS GUARDADAS EN LA SESIÓN -->
+    <section class="card" id="savedSection" style="display: none;" aria-label="Bibliografía acumulada">
+      <div class="card-body">
+        <div class="saved-header">
+          <div class="saved-title">
+            <span>📚</span> Tu Lista de Referencias Guardadas
+          </div>
+          <button type="button" class="copy-btn" id="btnCopyAllSaved">
+            <span>📋</span> Copiar Todas
+          </button>
+        </div>
+        <div class="saved-list" id="savedList"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>ShaMinKet</strong> — Identidad Nocturna & Precisión Académica • Edición Invernal</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
